@@ -11,10 +11,10 @@ class SqlParser
   def initialize(raw_lines)
 
     patterns = [
-      [:root, /SELECT \*/, :select_all],
-      [:root, /SELECT (?<cols>.*)/, :select],
-      [:root, /FROM (?<tables>.*)/, :from],
-      [:root, /WHERE (?<condition>.*)/, :where],
+      [:root, 'SELECT *', :select_all],
+      [:root, 'SELECT :cols', :select],
+      [:root, 'FROM :tables', :from],
+      [:root, 'WHERE :condition', :where],
         [:where, 'AND :and', :where_and ],
         [:where, 'OR :or', :where_or ],
       [:root, 'INSERT INTO *', :insert_into],
@@ -28,8 +28,8 @@ class SqlParser
          .sub(/\bselect\s+/,'SELECT ')\
          .sub(/\s+from\s+/,"\nFROM ")\
          .sub(/\s+where\s+/,"\nWHERE ")\
-         .sub(/\s+and\s+/,"\n  AND ").sub(/\s+or\s+/,"\n  OR ")    
-    
+         .sub(/\s+and\s+/,"\n  AND ").sub(/\s+or\s+/,"\n  OR ")
+
     @to_a = lp.parse lines
   end
 
